@@ -1,46 +1,115 @@
-// swift-tools-version:5.4
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.5
 
 import PackageDescription
 
 let package = Package(
-    name: "ARCore",
-    platforms: [.iOS(.v13)],
-    products: [
-        .library(name: "ARCoreAugmentedFaces", targets: ["ARCoreAugmentedFaces"]),
-        .library(name: "ARCoreBase", targets: ["ARCoreBase"]),
-        .library(name: "ARCoreCloudAnchors", targets: ["ARCoreCloudAnchors"]),
-        .library(name: "ARCoreGARSession", targets: ["ARCoreGARSession"]),
-        .library(name: "ARCoreGeospatial", targets: ["ARCoreGeospatial"]),
-    ],
-    dependencies: [
-    ],
-    targets: [
-        .binaryTarget(
-            name: "ARCoreAugmentedFaces",
-            url: "https://github.com/maxxfrazer/ARCore/releases/download/1.31.0-rc.1/ARCoreAugmentedFaces.xcframework.zip",
-            checksum: "70e9f2a65008508e86af3a0ea20e309df3bc00745451e2c21b3612c7f8f15bf6"
-        ),
-        .binaryTarget(
-            name: "ARCoreBase",
-            url: "https://github.com/maxxfrazer/ARCore/releases/download/1.31.0-rc.1/ARCoreBase.xcframework.zip",
-            checksum: "74ce619d4bb3effc71a493bded74204348eec9f684a3fcb708e57f84083105c2"
-        ),
-        .binaryTarget(
-            name: "ARCoreCloudAnchors",
-            url: "https://github.com/maxxfrazer/ARCore/releases/download/1.31.0-rc.1/ARCoreCloudAnchors.xcframework.zip",
-            checksum: "f787a823f9da845806c8032174e7ef0daafe4379832b85ed83ccfb732dc258fb"
-        ),
-        .binaryTarget(
-            name: "ARCoreGARSession",
-            url: "https://github.com/maxxfrazer/ARCore/releases/download/1.31.0-rc.1/ARCoreGARSession.xcframework.zip",
-            checksum: "84b2f659d902709f740415eb1589c9bca1592258f59148ed083c50be5e5d6764"
-        ),
-        .binaryTarget(
-            name: "ARCoreGeospatial",
-            url: "https://github.com/maxxfrazer/ARCore/releases/download/1.31.0-rc.1/ARCoreGeospatial.xcframework.zip",
-            checksum: "6809803e425860b04bd0d983a2201f632d9aa4bd2fafaf8314285616268d6f04"
-        )
-    ]
+  name: "ARCore",
+  platforms: [
+    .iOS(.v11)
+  ],
+  products: [
+    .library(name: "ARCoreBase", targets: ["Base"]),
+    .library(name: "ARCoreGARSession", targets: ["GARSession"]),
+    .library(name: "ARCoreCloudAnchors", targets: ["CloudAnchors"]),
+    .library(name: "ARCoreGeospatial", targets: ["Geospatial"]),
+    .library(name: "ARCoreAugmentedFaces", targets: ["AugmentedFaces"]),
+  ],
+  dependencies: [
+    .package(
+      url: "https://github.com/firebase/firebase-ios-sdk.git", "8.0.0"..<"10.0.0"),
+    .package(
+      url: "https://github.com/google/GoogleDataTransport.git", .upToNextMajor(from: "9.1.4")),
+    .package(
+      url: "https://github.com/google/gtm-session-fetcher.git", .upToNextMajor(from: "2.0.0")),
+    .package(
+      url: "https://github.com/firebase/nanopb.git",
+      "2.30909.0"..<"2.30910.0"
+    ),
+  ],
+  targets: [
+    .binaryTarget(
+      name: "ARCoreBase",
+      path: "Base/Frameworks/ARCoreBase.xcframework"
+    ),
+    .target(
+      name: "Base",
+      dependencies: [
+        "ARCoreBase",
+        .product(name: "GoogleDataTransport", package: "GoogleDataTransport"),
+        .product(name: "nanopb", package: "nanopb"),
+      ],
+      path: "Base",
+      sources: ["dummy.m"],
+      publicHeadersPath: "Sources"
+    ),
+    .binaryTarget(
+      name: "ARCoreGARSession",
+      path: "GARSession/Frameworks/ARCoreGARSession.xcframework"
+    ),
+    .target(
+      name: "GARSession",
+      dependencies: [
+        "ARCoreGARSession",
+        "Base",
+        .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+        .product(name: "GoogleDataTransport", package: "GoogleDataTransport"),
+        .product(name: "nanopb", package: "nanopb"),
+      ],
+      path: "GARSession",
+      sources: ["dummy.m"],
+      resources: [
+        .copy("Resources/ARCoreResources")
+      ],
+      publicHeadersPath: "Sources"
+    ),
+    .binaryTarget(
+      name: "ARCoreCloudAnchors",
+      path: "CloudAnchors/Frameworks/ARCoreCloudAnchors.xcframework"
+    ),
+    .target(
+      name: "CloudAnchors",
+      dependencies: [
+        "ARCoreCloudAnchors",
+        "GARSession",
+        .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
+        .product(name: "nanopb", package: "nanopb"),
+      ],
+      path: "CloudAnchors",
+      sources: ["dummy.m"],
+      publicHeadersPath: "Sources"
+    ),
+    .binaryTarget(
+      name: "ARCoreGeospatial",
+      path: "Geospatial/Frameworks/ARCoreGeospatial.xcframework"
+    ),
+    .target(
+      name: "Geospatial",
+      dependencies: [
+        "ARCoreGeospatial",
+        "GARSession",
+      ],
+      path: "Geospatial",
+      sources: ["dummy.m"],
+      publicHeadersPath: "Sources"
+    ),
+    .binaryTarget(
+      name: "ARCoreAugmentedFaces",
+      path: "AugmentedFaces/Frameworks/ARCoreAugmentedFaces.xcframework"
+    ),
+    .target(
+      name: "AugmentedFaces",
+      dependencies: [
+        "ARCoreAugmentedFaces",
+        "Base",
+        .product(name: "GoogleDataTransport", package: "GoogleDataTransport"),
+        .product(name: "nanopb", package: "nanopb"),
+      ],
+      path: "AugmentedFaces",
+      sources: ["dummy.m"],
+      resources: [
+        .copy("Resources/ARCoreFaceResources")
+      ],
+      publicHeadersPath: "Sources"
+    ),
+  ]
 )
-

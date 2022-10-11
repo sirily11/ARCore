@@ -1,0 +1,522 @@
+Version 1.33.0 (2022-08)
+===========================
+## Breaking & behavioral changes
+To use Cloud Anchors, you must now enable the
+[ARCore API](https://console.cloud.google.com/apis/library/arcore.googleapis.com)
+instead of the older
+[ARCore Cloud Anchor API](https://console.cloud.google.com/apis/library/arcorecloudanchor.googleapis.com),
+which is now deprecated. To support older app versions, you may enable both
+while making the transition. Apps built with ARCore SDK 1.32.0 and lower will
+target the older API, while apps built with ARCore SDK 1.33.0 and higher will
+target the new API. Note the following:
+* The new API uses the domain name arcore.googleapis.com instead of
+  arcorecloudanchor.googleapis.com.
+* If you are using Signed JWTs to authenticate, you will need to change the
+  `audience` claim to `https://arcore.googleapis.com/` for apps built with
+  ARCore SDK 1.33.0 and higher.
+* If you are using an API Key which is restricted by API, you must allow the
+  ARCore API.
+* If you send requests to the ARCore Cloud Anchor Management API from your
+  backend, you must also change the domain name to arcore.googleapis.com, after
+  enabling the ARCore API.
+The old API/endpoint will continue to be supported through August 2023.
+
+## New APIs and capabilities
+* TODO(b/239106946): Update the links below when available.
+[ARCore Geospatial Terrain Anchor API](https://developers.google.com/ar/develop/geospatial)
+Allows creating an anchor at a specified horizontal position and altitude relative
+to the horizontal position’s terrain.
+
+*  [`GARAnchor.terrainState`](https://developers.google.com/ar/reference/ios/interface_g_a_r_anchor#property-detail)
+   Describes the current Terrain Anchor state of GARAnchor.
+*  [`GARSession.createAnchorWithCoordinate:altitudeAboveTerrain:eastUpSouthQAnchor:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a9cdd023e54e8e901277f44a9213a7496)
+   Creates a geospatial terrain anchor at the specified location, elevation
+   above the terrain in meters and orientation relative to the Earth.
+
+## Deprecations
+None.
+
+## Other changes
+  * Updates for Xcode 14 - see [Xcode 14 Release Notes](https://developer.apple.com/documentation/Xcode-Release-Notes/xcode-14-release-notes):
+    * SDK binaries no longer contain bitcode, as Apple has deprecated bitcode.
+    * SDK binaries no longer contain 32-bit architectures, as Xcode 14 does not
+      support these.
+    * The SDK no longer supports deployment targets < 11.0, as Xcode 14 does not
+      support these.
+  * SDK binaries now contain the arm64 simulator architecture for Macs with
+    Apple Silicon.
+  * SDK binaries are now packaged as XCFrameworks.
+  * The SDK now includes Beta support for Swift Package Manager. See README.md
+    for how to integrate with ARCore using Swift Package Manager.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.32.0 (2022-06-24)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.31.0 (2022-05-11)
+===========================
+## Breaking & behavioral changes
+With this release, you must now configure the `GARSession` before using Cloud
+Anchors (or the new Geospatial API; see below). See the new
+`GARSessionConfiguration` class (and its categories) as well as the new method
+`GARSession#setConfiguration:error:`.
+
+## New APIs and capabilities
+
+The new
+[ARCore Geospatial API](https://developers.google.com/ar/develop/geospatial)
+utilizes data from Google Earth 3D models and Street View image data from Google
+Maps to enable your app for immersive, global-scale, location-based augmented
+reality experiences. This functionality is included in the new `Geospatial`
+podspec.
+
+*  [`GAREarth`](https://developers.google.com/ar/reference/ios/interface_g_a_r_earth)
+   Provides Earth-relative localization.
+   * [`GAREarth.earthState`](https://developers.google.com/ar/reference/ios/interface_g_a_r_earth#adbb083ca4de1d6c0d2ca018f25e45149)
+     manages error states and conditions.
+   * [`GAREarth.trackingState`](https://developers.google.com/ar/reference/ios/interface_g_a_r_earth#ab8620ef1eb098c4a99b7c63a53600d47)
+     maintains the tracking state, required for geospatial data.
+*  [`GARGeospatialTransform`](https://developers.google.com/ar/reference/ios/interface_g_a_r_geospatial_transform)
+   A representation of a global transform including location, heading, altitude,
+   and accuracy estimates.
+*  [`GARSession.createAnchorWithCoordinate:altitude:eastUpSouthQAnchor:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a9cdd023e54e8e901277f44a9213a7496)
+   Creates a geospatial anchor at the specified location and orientation
+   relative to the Earth.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.30.0 (2022-03-03)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.29.0 (2021-12-10)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.28.0 (2021-11-03)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.27.0 (2021-09-22)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Fixed a bug in Augmented Faces 1.26.0 where frames were never emitted.
+
+Version 1.26.0 (2021-08-11)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.25.0 (2021-06-17)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Fixed a crash that sometimes occurred when using the `currentFrame` property
+    on `GARAugmentedFaceSession`.
+
+Version 1.24.0 (2021-05-18)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.23.0 (2021-02-19)
+===========================
+Increased the minimum deployment target to iOS 10.0 (from iOS 9.0).
+
+## Known Issues
+  * The emulator build of ARCore does not support ARM (Apple Silicon) Macs.
+
+## Breaking & behavioral changes
+  * AR-enabled apps built using **ARCore SDK 1.11.0 or earlier are no longer able to host or resolve Cloud Anchors**. Specifically, Cloud Anchors returned by [`hostCloudAnchor:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#a3fb7a37ddae85940d98d56ced781aea3) and [`resolveCloudAnchorWithIdentifier:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#abf6195468c31332aa0b6ce844ef145dc) will always have the state `GARCloudAnchorStateErrorInternal`.
+
+  * Apps built with ARCore SDK 1.12.0 or later are unaffected. Their use of Cloud Anchors APIs is covered by the [Cloud Anchors deprecation policy](https://developers.google.com/ar/develop/cloud-anchors/deprecation-policy).
+
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+  * The binary size impact of Cloud Anchors on a compressed arm64-only app
+    bundle has been reduced to approximately 500KB.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.22.0 (2020-12-14)
+===========================
+## Upcoming breaking change affecting Cloud Anchors apps built using ARCore SDK 1.11.0 or earlier
+
+Beginning in **January 2021**, AR-enabled apps built using **ARCore SDK 1.11.0 or earlier will no longer be able to host or resolve Cloud Anchors**. Specifically, Cloud Anchors returned by [`hostCloudAnchor:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#a3fb7a37ddae85940d98d56ced781aea3) and [`resolveCloudAnchorWithIdentifier:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#abf6195468c31332aa0b6ce844ef145dc) will always have the state `GARCloudAnchorStateErrorInternal`.
+
+Apps built with ARCore SDK 1.12.0 or later are unaffected. Their use of Cloud Anchors APIs is covered by the [Cloud Anchors deprecation policy](https://developers.google.com/ar/develop/cloud-anchors/deprecation-policy).
+
+## Known Issues
+  * The emulator build of ARCore does not support ARM (Apple Silicon) Macs.
+
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.21.0 (2020-11-09)
+===========================
+## Upcoming breaking change affecting Cloud Anchors apps built using ARCore SDK 1.11.0 or earlier
+
+Beginning in **January 2021**, AR-enabled apps built using **ARCore SDK 1.11.0 or earlier will no longer be able to host or resolve Cloud Anchors**. Specifically, Cloud Anchors returned by [`hostCloudAnchor:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#a3fb7a37ddae85940d98d56ced781aea3) and [`resolveCloudAnchorWithIdentifier:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session?hl=de#abf6195468c31332aa0b6ce844ef145dc) will always have the state `GARCloudAnchorStateErrorInternal`.
+
+Apps built with ARCore SDK 1.12.0 or later are unaffected. Their use of Cloud Anchors APIs is covered by the [Cloud Anchors deprecation policy](https://developers.google.com/ar/develop/cloud-anchors/deprecation-policy).
+
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.20.0 (2020-10-06)
+===========================
+## Breaking & behavioral changes
+  * Beginning in **January 2021**, AR-enabled apps built using **ARCore SDK 1.11.0 or earlier will no longer be able to host or resolve Cloud Anchors**. Apps built with ARCore SDK 1.12.0 or later are unaffected. To learn more about this breaking change, and for instructions on how to update your app, see the [Cloud Anchors deprecation policy](https://developers.google.com/ar/develop/cloud-anchors/deprecation-policy).
+
+## New APIs and capabilities
+  * Added [Persistent Cloud Anchors](https://developers.google.com/ar/develop/ios/cloud-anchors/persistence), which let you increase the time-to-live (TTL) of Cloud Anchors to 365 days. With the [Cloud Anchor Management API](https://developers.google.com/ar/develop/ios/cloud-anchors/management-api), you can also extend the lifetime of a Cloud Anchor. Use of Persistent Cloud Anchors is covered by the new [Cloud Anchors deprecation policy](https://developers.google.com/ar/develop/cloud-anchors/deprecation-policy).
+    * Use `sessionWithError:` to replace `sessionWithAPIKey:` to create a Cloud Anchor with a TTL longer than 24 hours.
+    * [`setAuthToken:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session#aa97c9194eef5fbf0010ef94e380d226c) passes a token (generated for Persistent Cloud Anchors) to your ARCore session.
+    * [`hostCloudAnchor:TTLDays:error:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session#aff0c02db565a69c8126aba8a6394c91a) assigns the number of days for a Cloud Anchor's lifetime.
+    * [`estimateFeatureMapQualityForHosting:`](https://developers.google.com/ar/reference/ios/interface_g_a_r_session#aa6f9403228c8a4f829390da434db37b5) returns the estimated quality of the visual features seen by the camera in the preceding seconds.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+None.
+
+Version 1.19.0 (2020-08-31)
+===========================
+## Breaking & behavioral changes
+  * Adjusted the generated Swift argument labels of some methods:
+    * `GARSession.resolveCloudAnchor(withIdentifier:)` -> `GARSession.resolveCloudAnchor(_:)`
+    * `GARSessionDelegate.session(_:didHostAnchor:)` -> `GARSessionDelegate.session(_:didHost:)`
+    * `GARSessionDelegate.session(_:didFailToHostAnchor:)` -> `GARSessionDelegate.session(_:didFailToHost:)`
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+  * The `CloudAnchors` and `AugmentedFaces` subspecs can now be used at the same time.
+
+## Bug fixes
+None.
+
+Version 1.18.0 (2020-06-25)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Fixed [Cloud Anchors Privacy](https://developers.google.com/ar/cloud-anchors-privacy) link in the ([`CloudAnchorExample`](https://github.com/google-ar/arcore-ios-sdk/tree/master/Examples/CloudAnchorExample)) sample app. The incorrect link now redirects to the correct link, so existing apps with the incorrect link don't need to be updated.
+
+Version 1.17.0 (2020-05-19)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+  * The binary size of the Cloud Anchors SDK has significantly decreased.
+  * Bitcode is now supported for Augmented Faces. (Bitcode was already supported for Cloud Anchors.)
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.16.0 (2020-03-19)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.15.0 (2020-02-06)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+Raised the required minimum iOS SDK version to 13.0.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.14.0 (2019-12-12)
+===========================
+## Breaking & behavioral changes
+  * Removed the Cloud Anchor example from the SDK, so `pod try` will no longer work on the ARCore CocoaPod. It is still available under `Examples` on the GitHub repository.
+
+## New APIs and capabilities
+None.
+
+## Deprecations
+None.
+
+## Other changes
+None.
+
+## Bug fixes
+  * Various bug fixes and performance improvements.
+
+Version 1.13.0 (2019-10)
+===========================
+Decreased the minimum deployment target of `AugmentedFaces` to iOS 9.0 (from 10.0).
+
+Bug fixes and performance improvements.
+
+Version 1.12.0 (2019-09-12)
+===========================
+  * The ARCore CocoaPod has been divided into two subspecs, `CloudAnchors` and `AugmentedFaces`. `AugmentedFaces` is new for this release. (These libraries are not yet designed to work together.)
+
+  * The `AugmentedFaces` subspec allows you to implement ARCore's Augmented Faces feature on iOS. To read more about Augmented Faces, see https://developers.google.com/ar/develop/ios/augmented-faces/overview
+
+  * The Cloud Anchors feature has changed as follows.
+    * The data captured by `hostCloudAnchor:error:` and uploaded to the ARCore Cloud Anchor API service has changed. See https://developers.google.com/ar/develop/ios/cloud-anchors/overview#how-hosted to learn more.
+    * `resolveCloudAnchorWithIdentifier:error:` will no longer time out or fail when the ARCore Cloud Anchor API service is unreachable or the anchor cannot be immediately resolved. Instead, the API continues to attempt to resolve the provided anchors until they are removed.
+      * The `ErrorResolvingLocalizationNoMatch` and `ErrorServiceUnavailable` enums in `GARCloudAnchorState` are now deprecated and will no longer be returned. For hosted anchors only, the new value `ErrorHostingServiceUnavailable` may be returned.
+    * Cloud Anchors is now supported on all ARKit-compatible devices. New devices will be supported immediately with this release.
+
+
+Version 1.11.0 (2019-08-05)
+===========================
+Increased the minimum deployment target to iOS 9.0 (from iOS 8.0).
+
+Bug fixes and performance improvements.
+  * Added support for devices:
+    * iPod Touch (7th gen).
+
+Version 1.10.0 (2019-06-20)
+===========================
+Bug fixes and performance improvements.
+
+Version 1.9.0 (2019-05-06)
+===========================
+Bug fixes and performance improvements.
+  * Added support for devices:
+    * iPad Mini (5th gen).
+    * iPad Air (3rd gen).
+
+Version 1.8.0 (2019-03-28)
+===========================
+ARCore is now robust to tracking resets.
+
+Version 1.7.0 (2019-02-14)
+==========================
+Bug fixes and performance improvements.
+
+Version 1.6.0 (2018-12-06)
+==========================
+Added the ability to target iOS versions prior to 11.0. The binary now contains
+32-bit architectures, and the README documents three version numbers: minimum
+deployment target, minimum base SDK, and minimum version for runtime support.
+  * Added support for devices:
+    * iPhone: XS, XS Max, XR.
+    * iPad Pro: 11 inch, 12.9 inch (3rd gen).
+
+Version 1.5.0 (2018-09-27)
+==========================
+Added the ability for new devices to be supported without an SDK update.
+
+Resolved Issues:
+  * Fixed an issue where ARCore would not compile if used with Firebase Firestore.
+
+Version 1.4.0 (2018-08-02)
+==========================
+Resolved Issues:
+  * Fixed an issue where hosting and resolving Cloud Anchors would fail on iOS 12 with the new 4:3 aspect ratio.
+  * Fixed an issue where ARCore would not compile if used with Firebase Messaging.
+
+Version 1.3.0 (2018-06-21)
+==========================
+Adds support for ARKit-compatible iPads. These include:
+  * iPad: 5th and 6th generation
+  * iPad Pro: 12.9 inch (1st and 2nd gen), 10.5 inch, 9.7 inch
+
+Resolved Issues:
+  * Fixed an issue where an invalid API key for the ARCore Cloud Anchor Service would result in a cloud anchor state of `GARCloudAnchorStateErrorInternal`. The error state will now be `GARCloudAnchorStateErrorNotAuthorized`.
+
+Version 1.2.1 (2018-05-30)
+==========================
+Resolved Issues:
+  * Removed SDK references to `ARFaceAnchor`. The `hostCloudAnchor:` implementation no longer checks that the passed in `ARAnchor` is not an `ARFaceAnchor`, and no longer forcibly exits with `GARSessionErrorCodeAnchorNotSupportedForHosting`. However, use of `ARFaceAnchor`s remains unsupported in this release.
+
+Version 1.2.0 (2018-05-08)
+==========================
+Initial release alongside ARCore 1.2 on Android.
+  * Support for Cloud Anchors.
+  * Supported devices: iPhone X, 8, 8+, 7, 7+, 6S, 6S+, SE.
+
+Known Issues:
+  * An invalid API key for the ARCore Cloud Anchor Service will result in a Cloud Anchor state of `GARCloudAnchorStateErrorInternal` instead of `GARCloudAnchorStateErrorNotAuthorized`. This is a known issue and will be fixed in an upcoming release.
