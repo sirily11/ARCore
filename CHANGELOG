@@ -1,16 +1,39 @@
-Version 1.33.0 (2022-08)
+Version 1.34.0 (2022-10-12)
+===========================
+## Breaking & behavioral changes
+None.
+
+## New APIs and capabilities
+*  A new ARCore Geospatial API has been added to check for Visual Positioning System (VPS) availability at a specified horizontal position at runtime. This API can be used without an active AR session, for example, to present an "Enter AR" button only when VPS is available. See <a href="https://developers.google.com/ar/develop/ios/geospatial/check-vps-availability">Check VPS Availability</a> for more information and a usage example.
+  *  [`GARSession.checkVPSAvailabilityAtCoordinate:completionHandler:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#ab4c2672d3a5f1869663ddb72d1c83189)
+*  Geospatial transforms now expose their orientation in 3D space.
+  *  [`GARGeospatialTransform.eastUpSouthQTarget`](https://developers.google.com/ar/reference/ios/interface_g_a_r_geospatial_transform#abd5921fc07dca0e1e2c9ce3c1c2e637b)
+  *  [`GARSession.geospatialTransformFromTransform:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a8f34a2bedb4a1b2a41fcbdb9d3358e0c)
+  *  [`GARSession.transformFromGeospatialCoordinate:altitude:eastUpSouthQTarget:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a822bc1ce5bb3c1963568fb6c8cc9207c). Note that Geospatial poses obtained from these functions have a heading value set to zero. Instead, use [`GARGeospatialTransform.eastUpSouthQTarget`](https://developers.google.com/ar/reference/ios/interface_g_a_r_geospatial_transform#abd5921fc07dca0e1e2c9ce3c1c2e637b).
+
+## Deprecations
+None.
+
+## Other changes
+  * `GARGeospatialTransform` now exposes orientation data in 3D space through [`GARGeospatialTransform.eastUpSouthQTarget`](https://developers.google.com/ar/reference/ios/interface_g_a_r_geospatial_transform#abd5921fc07dca0e1e2c9ce3c1c2e637b). The heading components of a Geospatial transform are now only valid for Geospatial transforms obtained from [`cameraGeospatialTransform`](https://developers.google.com/ar/reference/ios/interface_g_a_r_earth#a59ee0d51e1eeb2b419f2cfe42b91511f); other Geospatial transforms should use the 3D orientation instead.
+
+## Bug fixes
+  * Fixed a bug where the Geospatial API would return auth errors when using
+    Signed JWT authentication.
+
+Version 1.33.0 (2022-08-18)
 ===========================
 ## Breaking & behavioral changes
 To use Cloud Anchors, you must now enable the
-[ARCore API](https://console.cloud.google.com/apis/library/arcore.googleapis.com)
+[ARCore API](https://console.cloud.google.com/apis/library/arcore)
 instead of the older
 [ARCore Cloud Anchor API](https://console.cloud.google.com/apis/library/arcorecloudanchor.googleapis.com),
 which is now deprecated. To support older app versions, you may enable both
 while making the transition. Apps built with ARCore SDK 1.32.0 and lower will
 target the older API, while apps built with ARCore SDK 1.33.0 and higher will
 target the new API. Note the following:
-* The new API uses the domain name arcore.googleapis.com instead of
-  arcorecloudanchor.googleapis.com.
+* The new API uses the domain name `arcore.googleapis.com` instead of
+  `arcorecloudanchor.googleapis.com`.
 * If you are using Signed JWTs to authenticate, you will need to change the
   `audience` claim to `https://arcore.googleapis.com/` for apps built with
   ARCore SDK 1.33.0 and higher.
@@ -19,18 +42,16 @@ target the new API. Note the following:
 * If you send requests to the ARCore Cloud Anchor Management API from your
   backend, you must also change the domain name to arcore.googleapis.com, after
   enabling the ARCore API.
-The old API/endpoint will continue to be supported through August 2023.
+* The old API/endpoint will continue to be supported through August 2023.
+* See [ARCore 1.33 Cloud Anchor endpoint changes](https://developers.google.com/ar/develop/cloud-anchors/endpoint-changes) for more details.
 
 ## New APIs and capabilities
-* TODO(b/239106946): Update the links below when available.
-[ARCore Geospatial Terrain Anchor API](https://developers.google.com/ar/develop/geospatial)
-Allows creating an anchor at a specified horizontal position and altitude relative
-to the horizontal position’s terrain.
+[ARCore Geospatial Terrain anchor API](https://developers.google.com/ar/develop/ios/geospatial/terrain-anchors) creates an anchor at a specified horizontal position and altitude relative to the horizontal position’s terrain.
 
-*  [`GARAnchor.terrainState`](https://developers.google.com/ar/reference/ios/interface_g_a_r_anchor#property-detail)
-   Describes the current Terrain Anchor state of GARAnchor.
-*  [`GARSession.createAnchorWithCoordinate:altitudeAboveTerrain:eastUpSouthQAnchor:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a9cdd023e54e8e901277f44a9213a7496)
-   Creates a geospatial terrain anchor at the specified location, elevation
+*  [`GARAnchor.terrainState`](https://developers.google.com/ar/reference/ios/category_g_a_r_anchor_07_geospatial_08#aa70e610288fc6447167fba1d572004b8)
+   Describes the current Terrain anchor state of GARAnchor.
+*  [`GARSession.createAnchorWithCoordinate:altitudeAboveTerrain:eastUpSouthQAnchor:error:`](https://developers.google.com/ar/reference/ios/category_g_a_r_session_07_geospatial_08#a5f5941073ee7b5621989d3a692125933)
+   Creates a Geospatial Terrain anchor at the specified location, altitude
    above the terrain in meters and orientation relative to the Earth.
 
 ## Deprecations

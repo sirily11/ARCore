@@ -18,8 +18,10 @@ This pod contains the ARCore SDK for iOS.
 ## Installation
 
 ARCore requires a deployment target that is >= 11.0. Also, you must be building
-with at least version 15.0 of the iOS SDK. The SDK can be installed using either
-CocoaPods or Swift Package Manager; see below for details.
+with at least version 15.0 of the iOS SDK. ARCore binaries no longer contain
+bitcode, which is deprecated with Xcode 14, so if you are building with Xcode 13
+then you must disable bitcode for your project. The SDK can be installed using
+either CocoaPods or Swift Package Manager; see below for details.
 
 ### Using CocoaPods
 
@@ -49,7 +51,13 @@ as a local package. To integrate this way:
    as dependencies of your app by going to
    "Build Phases > Link Binary With Libraries" and adding them.
 4) You will need to add the flag "-ObjC" to "Other Linker Flags". We recommend
-   setting "Other Linker Flags" to "$(inherited) -ObjC".
+   setting "Other Linker Flags" to "$(inherited) -ObjC". Also make sure that the
+   Build Settings "Enable Modules" and "Link Frameworks Automatically" are set
+   to "Yes" (ARCore relies on auto-linking), and "Enable Bitcode" is set to "No"
+   (ARCore binaries do not contain bitcode).
+5) Import ARCore somewhere in your code, using either `#import` or `@import` in
+   Objective-C or just `import` in Swift. This is necessary for auto-linking to
+   find the required system frameworks and libraries.
 
 ### Additional Steps
 
@@ -57,7 +65,7 @@ Before you can start using the ARCore Cloud Anchors API or the ARCore Geospatial
 API, you will need to create a project in the
 [Google Developer Console](https://console.developers.google.com/) and enable
 the
-[ARCore API](https://console.cloud.google.com/apis/library/arcore.googleapis.com).
+[ARCore API](https://console.cloud.google.com/apis/library/arcore).
 
 ## License and Terms of Service
 

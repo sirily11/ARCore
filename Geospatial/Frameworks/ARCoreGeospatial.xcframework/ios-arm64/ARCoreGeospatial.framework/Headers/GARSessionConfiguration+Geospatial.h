@@ -23,14 +23,35 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GARSessionConfiguration (Geospatial)
 
 /**
- * The processing mode for the Geospatial API. The default mode is `GARGeospatialModeDisabled`.
- * If the mode is changed, existing Geospatial anchors will stop tracking.
+ * Describes the desired behavior of the ARCore Geospatial API. The Geospatial API uses a
+ * combination of Google's Visual Positioning Service (VPS) and GPS to determine the geospatial
+ * pose.
+ *
+ * The Geospatial API is able to provide the best user experience when it is able to generate
+ * high accuracy poses. However, the Geospatial API can be used anywhere, as long as the device is
+ * able to determine its location, even if the available location information has low accuracy.
+ *
+ *  - In areas with VPS coverage, the Geospatial API is able to generate high accuracy poses.
+ *    This can work even where GPS accuracy is low, such as dense urban environments. Under
+ *    typical conditions, VPS can be expected to provide positional accuracy typically better
+ *    than 5 meters and often around 1 meter, and a rotational accuracy of better than 5
+ *    degrees. Use `GARSession#checkVPSAvailabilityAtCoordinate:completionHandler:` to
+ *    determine if a given location has VPS coverage.
+ *  - In outdoor environments with few or no overhead obstructions, GPS may be sufficient to
+ *    generate high accuracy poses. GPS accuracy may be low in dense urban environments and
+ *    indoors.
+ *
+ * A small number of ARCore supported devices do not support the Geospatial API. Use
+ * `GARSession#isGeospatialModeSupported:` to determine if the current device is supported.
+ * Affected devices are also indicated on the <a href="https://developers.google.com/ar/devices">ARCore
+ * supported devices page</a>.
+ *
+ * The default mode is `GARGeospatialModeDisabled`. If the mode is changed, existing Geospatial anchors will stop tracking.
  *
  * Remember to set a credential for authentication with Google Cloud before configuring, or
  * you may receive auth errors. See `GARSession#sessionWithAPIKey:bundleIdentifier:error:` and
- * `GARSession#setAuthToken:`, as well as documentation on the
- * <a href="https://developers.google.com/ar/develop/ios/geospatial/developer-guide">ARCore
- * developers page</a>.
+ * `GARSession#setAuthToken:`, as well as documentation on
+ * <a href="https://developers.google.com/ar/develop/ios/geospatial/enable">Enable the Geospatial API</a>.
  *
  * Configuring may result in the following error codes:
  *

@@ -16,11 +16,14 @@
 
 #import <CoreLocation/CoreLocation.h>
 
+#include <simd/simd.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A representation of a global transform including location, heading, altitude, and accuracy
- * estimates. Can be obtained from `GAREarth#cameraGeospatialTransform`.
+ * estimates. Can be obtained from `GAREarth#cameraGeospatialTransform`, or from 
+ * `GARSession#geospatialTransformFromTransform:error:`.
  */
 @interface GARGeospatialTransform : NSObject
 
@@ -57,6 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Current estimate of heading. North is 0°, East is 90°, and the angle continues to
  * increase clockwise.  The range is `[0,360)`.
+ *
+ * This is valid only for `GARGeospatialTransform` from
+ * `GAREarth#cameraGeospatialTransform`, and is 0 for all other `GARGeospatialTransform` objects.
  */
 @property(readonly, nonatomic) CLLocationDirection heading;
 
@@ -66,6 +72,14 @@ NS_ASSUME_NONNULL_BEGIN
  * indicates the standard deviation of the estimate.
  */
 @property(readonly, nonatomic) CLLocationDirectionAccuracy headingAccuracy;
+
+/**
+ * The quaternion from the target to East-Up-South (EUS) coordinates
+ * (i.e., +X points East, +Y points up, and +Z points South). An identity quaternion will
+ * have the target frame oriented such that X+ points to the east, Y+ points up away from the center
+ * of the earth, and Z+ points to the south.
+ */
+@property(readonly, nonatomic) simd_quatf eastUpSouthQTarget;
 
 /// @cond
 /**
